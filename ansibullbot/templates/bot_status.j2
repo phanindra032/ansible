@@ -1,0 +1,43 @@
+**waiting_on**: {{ waiting_on }}
+{% if is_module and not is_new_module %}
+**module**: {{ module_match['name'] }}
+**supported_by**: {{ module_match['metadata']['supported_by'] }}
+{% if module_match['metadata']['supported_by'] == 'core' %}
+**maintainers**: ansible core team
+{% else %}
+**maintainers**: {{ module_match['maintainers']|join(' ') or 'no maintainer(s)' }}
+{% endif %}
+{% else %}
+{% if is_new_module %}
+module: {{ component }}
+{% else %}
+component: {{ component }}
+**supported_by**: core
+{% endif %}
+{% endif %}
+{% if is_issue %}
+needs_info: {{ is_needs_info }}
+{% else %}
+{% if change_requested %}
+changes_requested_by: {{ change_requested|join(' ') }}
+{% else %}
+changes_requested_by: null
+{% endif %}
+needs_info: {{ is_needs_info }}
+needs_revision: {{ is_needs_revision }}
+needs_rebase: {{ is_needs_rebase }}
+merge_commits: {{ merge_commits }}
+mergeable_state: {{ mergeable_state }}
+shippable_status: {{ ci_state }}
+maintainer_shipits: {{ shipit_count_maintainer }}
+community_shipits: {{ shipit_count_community }}
+ansible_shipits: {{ shipit_count_ansible }}
+{% if shipit_actors %}
+shipit_actors: {{ shipit_actors|join(' ') }}
+{% else %}
+shipit_actors: {{ shipit_actors }}
+{% endif %}
+{% endif %}
+
+[click here for bot help](https://github.com/ansible/ansibullbot/blob/master/ISSUE_HELP.md)
+<!--- boilerplate: bot_status --->
